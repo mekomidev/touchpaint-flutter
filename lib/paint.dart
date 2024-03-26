@@ -153,6 +153,9 @@ mixin SampleRateCounterMixin<T extends StatefulWidget> on State<T> {
   int eventCount = 0;
 
   void sampleRateCallback(Timer timer) {
+    // prevent calling if the widget is not mounted
+    if(!mounted) { return; }
+
     final snackBar = SnackBar(content: Text('Touch sample rate: $eventCount Hz'));
     eventCount = 0;
 

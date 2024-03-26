@@ -16,3 +16,4 @@ This is a simple Flutter app for latency testing and comparison to the [Touchpai
 - Updated iOS/Android support
 - Added Linux, macOS support
 - Added sample rate to "Follow" mode
+- Minor fixes
