@@ -17,7 +17,7 @@ class BlankPainter extends CustomPainter {
 }
 
 class BlankWidget extends StatefulWidget {
-  BlankWidget({Key key}) : super(key: key);
+  BlankWidget({super.key});
 
   @override
   _BlankWidgetState createState() => _BlankWidgetState();

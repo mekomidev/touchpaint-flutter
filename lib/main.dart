@@ -42,7 +42,7 @@ enum Mode {
 }
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key}) : super(key: key);
+  MainPage({super.key});
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
   double _paintBrushSize = 2;
   int _paintClearDelay = 0;
   bool _showEventPoints = false;
-  SharedPreferences _prefs;
+  late SharedPreferences _prefs;
 
   loadPrefs() async {
     _prefs = await SharedPreferences.getInstance();

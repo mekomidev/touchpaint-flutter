@@ -27,7 +27,7 @@ class FollowPainter extends CustomPainter {
 }
 
 class FollowWidget extends StatefulWidget {
-  FollowWidget({Key key}) : super(key: key);
+  FollowWidget({super.key});
 
   @override
   _FollowWidgetState createState() => _FollowWidgetState();

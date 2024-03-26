@@ -25,7 +25,7 @@ class FillPainter extends CustomPainter {
 }
 
 class FillWidget extends StatefulWidget {
-  FillWidget({Key key}) : super(key: key);
+  FillWidget({super.key});
 
   @override
   _FillWidgetState createState() => _FillWidgetState();
@@ -34,7 +34,7 @@ class FillWidget extends StatefulWidget {
 class _FillWidgetState extends State<FillWidget> {
   int _fingers = 0;
   bool _down = false;
-  Timer _clearTimer;
+  Timer? _clearTimer;
 
   void _clear() {
     setState(() {

@@ -8,7 +8,7 @@ class PaintPainter extends CustomPainter {
   PaintPainter(this.paths, this.strokeWidth, this.points);
 
   final List<Path> paths;
-  final List<Offset> points;
+  final List<Offset>? points;
   final double strokeWidth;
 
   @override
@@ -33,7 +33,7 @@ class PaintPainter extends CustomPainter {
     }
 
     if (points != null) {
-      canvas.drawPoints(PointMode.points, points, pointPaint);
+      canvas.drawPoints(PointMode.points, points!, pointPaint);
     }
   }
 
@@ -44,7 +44,13 @@ class PaintPainter extends CustomPainter {
 }
 
 class PaintWidget extends StatefulWidget {
-  PaintWidget({Key key, this.brushSize, this.clearDelay, this.showSampleRate, this.showEventPoints}) : super(key: key);
+  PaintWidget({
+    super.key,
+    required this.brushSize,
+    required this.clearDelay,
+    required this.showSampleRate,
+    required this.showEventPoints,
+  });
 
   final double brushSize;
   final int clearDelay;
@@ -60,8 +66,8 @@ class _PaintWidgetState extends State<PaintWidget> {
   List<Offset> _points = [];
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
-  Timer _clearTimer;
-  Timer _sampleRateTimer;
+  Timer? _clearTimer;
+  Timer? _sampleRateTimer;
   int _eventCount = 0;
 
   void _clearCanvas() {
@@ -81,7 +87,7 @@ class _PaintWidgetState extends State<PaintWidget> {
     final snackBar = SnackBar(content: Text('Touch sample rate: $_eventCount Hz'));
     _eventCount = 0;
 
-    final scaffold = Scaffold.of(context);
+    final scaffold = ScaffoldMessenger.of(context);
     scaffold.hideCurrentSnackBar();
     scaffold.showSnackBar(snackBar);
   }
@@ -119,7 +125,7 @@ class _PaintWidgetState extends State<PaintWidget> {
 
   void _fingerMove(PointerEvent details) {
     setState(() {
-      _curPaths[details.pointer].lineTo(details.localPosition.dx, details.localPosition.dy);
+      _curPaths[details.pointer]?.lineTo(details.localPosition.dx, details.localPosition.dy);
 
       if (widget.showSampleRate) {
         _eventCount++;
