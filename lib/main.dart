@@ -250,7 +250,10 @@ class _MainPageState extends State<MainPage> {
           ),
           applicationName: packageInfo.appName,
           applicationVersion: packageInfo.version,
-          applicationLegalese: '© 2020 Danny Lin (kdrag0n)',
+          applicationLegalese: """
+© 2020 Danny Lin (github.com/kdrag0n)
+© 2024 mekomi (github.com/mekomidev)
+          """,
           children: [
             Padding(
               padding: EdgeInsets.only(top: 15),

@@ -7,6 +7,8 @@ This is a simple Flutter app for latency testing and comparison to the [Touchpai
 - Box follows touch (for testing drag latency differently, similar to this [Microsoft Research video](https://www.youtube.com/watch?v=vOvQCPLkPt4))
 - Blank redraw (for testing baseline rendering performance)
 
+Credits for version 1.0.0 go to [kdrag0n](https://github.com/kdrag0n) for the original code.
+
 ## Changelog
 
 ### 1.1.0
