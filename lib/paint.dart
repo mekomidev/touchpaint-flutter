@@ -61,14 +61,12 @@ class PaintWidget extends StatefulWidget {
   _PaintWidgetState createState() => _PaintWidgetState();
 }
 
-class _PaintWidgetState extends State<PaintWidget> {
+class _PaintWidgetState extends State<PaintWidget> with SampleRateCounterMixin<PaintWidget> {
   List<Path> _paths = [];
   List<Offset> _points = [];
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
   Timer? _clearTimer;
-  Timer? _sampleRateTimer;
-  int _eventCount = 0;
 
   void _clearCanvas() {
     _paths.clear();
@@ -81,20 +79,6 @@ class _PaintWidgetState extends State<PaintWidget> {
         _clearCanvas();
       });
     });
-  }
-
-  void _sampleRateCallback(Timer timer) {
-    final snackBar = SnackBar(content: Text('Touch sample rate: $_eventCount Hz'));
-    _eventCount = 0;
-
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.hideCurrentSnackBar();
-    scaffold.showSnackBar(snackBar);
-  }
-
-  void _scheduleSampleRate() {
-    _eventCount = 0;
-    _sampleRateTimer = Timer.periodic(Duration(seconds: 1), _sampleRateCallback);
   }
 
   void _fingerDown(PointerEvent details) {
@@ -112,7 +96,7 @@ class _PaintWidgetState extends State<PaintWidget> {
         }
 
         if (widget.showSampleRate) {
-          _scheduleSampleRate();
+          scheduleSampleRate();
         }
       }
 
@@ -127,9 +111,7 @@ class _PaintWidgetState extends State<PaintWidget> {
     setState(() {
       _curPaths[details.pointer]?.lineTo(details.localPosition.dx, details.localPosition.dy);
 
-      if (widget.showSampleRate) {
-        _eventCount++;
-      }
+      eventCount++;
 
       if (widget.showEventPoints) {
         _points.add(details.localPosition);
@@ -147,7 +129,7 @@ class _PaintWidgetState extends State<PaintWidget> {
           _scheduleClear();
         }
 
-        _sampleRateTimer?.cancel();
+        sampleRateTimer?.cancel();
       }
     });
   }
@@ -163,5 +145,24 @@ class _PaintWidgetState extends State<PaintWidget> {
         painter: PaintPainter(_paths, widget.brushSize, widget.showEventPoints ? _points : null),
       ),
     );
+  }
+}
+
+mixin SampleRateCounterMixin<T extends StatefulWidget> on State<T> {
+  Timer? sampleRateTimer;
+  int eventCount = 0;
+
+  void sampleRateCallback(Timer timer) {
+    final snackBar = SnackBar(content: Text('Touch sample rate: $eventCount Hz'));
+    eventCount = 0;
+
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.hideCurrentSnackBar();
+    scaffold.showSnackBar(snackBar);
+  }
+
+  void scheduleSampleRate() {
+    eventCount = 0;
+    sampleRateTimer = Timer.periodic(Duration(seconds: 1), sampleRateCallback);
   }
 }

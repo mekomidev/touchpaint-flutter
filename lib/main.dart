@@ -18,7 +18,7 @@ class PaintApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
         appBarTheme: AppBarTheme(
           color: Color(0xff2b2b2b),
         ),
@@ -109,7 +109,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _changeBrushSize() async {
-    double newSize = await showDialog(
+    double? newSize = await showDialog(
         context: context,
         builder: (context) => SimpleDialog(
             title: const Text('Select brush size'),
@@ -279,7 +279,9 @@ class _MainPageState extends State<MainPage> {
         bodyWidget = FillWidget();
         break;
       case Mode.FOLLOW:
-        bodyWidget = FollowWidget();
+        bodyWidget = FollowWidget(
+          showSampleRate: _showSampleRate,
+        );
         break;
       case Mode.BLANK:
         bodyWidget = BlankWidget();
